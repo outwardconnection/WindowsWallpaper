@@ -53,9 +53,15 @@ unsigned int DesktopWallpaperManager::getMonitorNum()
     }
 }
 
+unsigned int DesktopWallpaperManager::getRealMonitorNum()
+{
+    return realMonNum;
+}
+
 QStringList DesktopWallpaperManager::getAllWallpaperUrl()
 {
     QStringList urlList;
+    realMonNum = 0;
     if(getMonitorNum())
     {
         for(unsigned int i=0;i<monNum;i++)
@@ -70,31 +76,33 @@ QStringList DesktopWallpaperManager::getAllWallpaperUrl()
                 hr = pDesktopWallpaper->GetMonitorRECT(monId,&displayRECT);
                 if(hr==S_OK)
                 {
+                    realMonNum = realMonNum + 1;
                     hr = pDesktopWallpaper->GetWallpaper(monId,&wallpaper);
                     if(hr==S_OK)
                     {
+                        //qDebug() << "QString::fromWCharArray(wallpaper) : " << QString::fromWCharArray(wallpaper);
                         urlList << QString::fromWCharArray(wallpaper).replace("\\", "/");
                     }
                     else
                     {
                         //GetWallpaper Exception
-                        urlList.clear();
-                        return urlList;
+                        //urlList.clear();
+                        //return urlList;
                     }
                 }
                 else
                 {
                     //GetMonitorRECT Exception
-                    urlList.clear();
-                    return urlList;
+                    //urlList.clear();
+                    //return urlList;
                 }
 
             }
             else
             {
                 //GetMonitorDevicePathAt Exception
-                urlList.clear();
-                return urlList;
+                //urlList.clear();
+                //return urlList;
             }
         }
     }

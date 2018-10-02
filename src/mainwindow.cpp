@@ -57,8 +57,10 @@ void MainWindow::setImageLabels()
     dwm = new DesktopWallpaperManager();
     dwm->init();
     QStringList urlList = dwm->getAllWallpaperUrl();
+   // qDebug() << "urlList.at(0)" << urlList.at(0);
 
-    unsigned int monNum = dwm->getMonitorNum();
+    unsigned int monNum = dwm->getRealMonitorNum();
+    //qDebug() << monNum;
     for(unsigned int i=0;i<monNum;i++)
     {
         int times = 2;
@@ -77,6 +79,7 @@ void MainWindow::setImageLabels()
 
         ui->wallpapersLayout->addWidget(imageContainer);
         qDebug() << urlList.at(i);
+
     }
 }
 
